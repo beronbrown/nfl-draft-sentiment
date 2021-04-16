@@ -47,7 +47,7 @@ def getSentiment(text):
     else:
         raise Exception("Comment length 0")
 
-with open('D:/repositories/nfl-draft-sentiment/data/comments.csv', 'w+', newline='') as csvfile:
+with open('D:/Dropbox/nfl-draft-sentiment/data/comments.csv', 'w+', newline='') as csvfile:
     # initiate csv writer
     comment_writer = csv.writer(csvfile, delimiter='\t',
                             quotechar='|', quoting=csv.QUOTE_MINIMAL)
@@ -64,7 +64,7 @@ team_names = ["Chiefs","Raiders","Broncos","Chargers","Colts","Titans","Texans",
 teams_dict = dict(zip(team_subreddits,team_names))
 
 # open file with comments
-with open("D:/repositories/nfl-draft-sentiment/data/2019_comments.csv","r") as f:
+with open("D:/Dropbox/nfl-draft-sentiment/data/2019_comments.csv","r") as f:
     first_row = True
     # loop through comments
     for line in f:
@@ -119,7 +119,7 @@ with open("D:/repositories/nfl-draft-sentiment/data/2019_comments.csv","r") as f
         comment_text = pf.censor(comment_text)
 
         try:
-            with open('D:/repositories/nfl-draft-sentiment/data/comments.csv', 'a', newline='') as csvfile:
+            with open('D:/Dropbox/nfl-draft-sentiment/data/comments.csv', 'a', newline='') as csvfile:
                 # initiate csv writer
                 comment_writer = csv.writer(csvfile, delimiter='\t',
                                         quotechar='|', quoting=csv.QUOTE_MINIMAL)

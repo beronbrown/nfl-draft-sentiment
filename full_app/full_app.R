@@ -11,16 +11,23 @@ library(lubridate)
 loadfonts(device = "win", quiet = TRUE)
 
 ### GLOBAL VARIABLES
-lee_logos <- read.csv("D:/repositories/nfl-draft-sentiment/lee_logos.csv")
-nfl_teams <- teamcolors %>% filter(league == "nfl") %>% dplyr::select(mascot,division,primary) %>% rename(team = mascot) %>%
-    left_join(lee_logos) %>% mutate(team_logo = as.character(team_logo))
-logo_grobs <- image_read(nfl_teams$team_logo)
+
+lee_logos <- read_csv("https://raw.githubusercontent.com/leesharpe/nfldata/master/data/logos.csv") %>%
+    select(team, team_logo)
+nfl_colors_df <- read_csv("https://raw.githubusercontent.com/leesharpe/nfldata/master/data/teamcolors.csv") %>%
+    select(team, color)
+
+
+nfl_df <-  lee_logos %>% 
+    left_join(., nfl_colors_df, by = c("team")) 
+
+logo_grobs <- image_read(nfl_df$team_logo)
 # create grob for each logo
 nfl_grobs <- list()
-for (i in 1:nrow(nfl_teams)) {
+for (i in 1:nrow(nfl_df)) {
     nfl_grobs[[i]] <- rasterGrob(image = logo_grobs[i])
 }
-nfl_teams$logo_grob <- nfl_grobs
+nfl_df$logo_grob <- nfl_grobs
 
 
 
@@ -58,7 +65,7 @@ server <- function(input, output, session) {
             ### X = SHARE OF POSITIVE COMMENTS, Y =  TOTAL COMMENTS
              obj$scatter_table <- left_join(
                 dplyr::select(nfl_teams,team),
-                filter(comment_data, as.numeric(Sys.time()) - timestamp <= 3600) %>%
+                filter(comment_data, as.numeric(Sys.time())  <= 3600) %>%
                 mutate(sentiment = case_when(
                     sentiment >= 3 ~ "Positive",
                     sentiment == 2 ~ "Neutral",
@@ -139,7 +146,7 @@ server <- function(input, output, session) {
             facet_wrap(~team, ncol=4) +
             labs(
                 title = "Recent rolling average of /r/NFL comment sentiment by division",
-                caption = "@CaioBrighenti2",
+                caption = "Senti",
                 y = "mean sentiment (prior 2 mins)",
                 x = ""
             ) +
@@ -152,7 +159,7 @@ server <- function(input, output, session) {
     
     
     fileReaderData <- reactiveFileReader(500, session,
-                                         "D:/repositories/nfl-draft-sentiment/data/comments.csv", read.csv, sep="\t", stringsAsFactors = FALSE, quote="")
+                                         "D:/Dropbox/nfl-draft-sentiment/data/comments.csv", read.csv, sep="\t", stringsAsFactors = FALSE, quote="")
 }
 
 # Run the application 

@@ -68,7 +68,7 @@ def extract_reddit_data(**kwargs):
                 # Write row to csv writer
                 print([created_utc, subreddit, object['id']])
                 post_info = [str(created_utc), str(subreddit), str(object['id'])]
-                with open("D:/repositories/nfl-draft-sentiment/2019_submissions.csv","a") as f:
+                with open("D:/Dropbox/nfl-draft-sentiment/2019_submissions.csv","a") as f:
                     f.write(",".join(post_info))
                     f.write("\n")
         
@@ -79,7 +79,7 @@ def extract_reddit_data(**kwargs):
         # Sleep a little before the next recursive function call
         time.sleep(.5)
 
-with open("D:/repositories/nfl-draft-sentiment/2019_submissions.csv","w+") as f:
+with open("D:/Dropbox/nfl-draft-sentiment/2019_submissions.csv","w+") as f:
     f.write(",".join(["timestamp","subreddit","id"]))
     f.write("\n")
 
@@ -96,12 +96,12 @@ print("DONE SCRAPING POSTS, STARTING COMMENTS")
 reddit = praw.Reddit()
 
 # initialize csv of comments
-with open("D:/repositories/nfl-draft-sentiment/data/2019_comments.csv","w+") as f:
+with open("D:/Dropbox/nfl-draft-sentiment/data/2019_comments.csv","w+") as f:
     f.write("\t".join(["timestamp","subreddit","id","flair"]))
     f.write("\n")
 
 # load in submissions
-with open("D:/repositories/nfl-draft-sentiment/2019_submissions.csv","r") as f:
+with open("D:/Dropbox/nfl-draft-sentiment/2019_submissions.csv","r") as f:
     # loop through submissions
     for line in tqdm(f):
         line = line.strip('\n')
@@ -142,7 +142,7 @@ with open("D:/repositories/nfl-draft-sentiment/2019_submissions.csv","r") as f:
 
             # write to file
             #print([comment_time,line_subreddit,comment_flair,comment_text])
-            with open("D:/repositories/nfl-draft-sentiment/data/2019_comments.csv","a") as f:
+            with open("D:/Dropbox/nfl-draft-sentiment/data/2019_comments.csv","a") as f:
                 try:
                     f.write("\t".join([str(comment_time),line_subreddit,comment_flair,comment_text]))
                     f.write("\n")

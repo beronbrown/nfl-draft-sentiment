@@ -25,8 +25,8 @@ pf.censor_whole_words = False
 vader = SentimentIntensityAnalyzer()
 
 ## INIT TEXTCLEAN R
-textclean = importr('textclean', lib_loc = "C:/Users/caiob/Documents/R/win-library/3.6")
-importr('stringi', lib_loc = "C:/Users/caiob/Documents/R/win-library/3.6")
+textclean = importr('textclean', lib_loc = "C:/Users/Ben/Documents/R/win-library/3.6")
+importr('stringi', lib_loc = "C:/Users/Ben/Documents/R/win-library/3.6")
 
 ## coreNLP sent. analysis
 def getSentiment(text):
@@ -58,7 +58,7 @@ def getSentiment(text):
         raise Exception("Comment length 0")
 
 
-with open('D:/repositories/nfl-draft-sentiment/data/comments.csv', 'w+', newline='') as csvfile:
+with open('D:/Dropbox/nfl-draft-sentiment/data/comments.csv', 'w+', newline='') as csvfile:
     # initiate csv writer
     comment_writer = csv.writer(csvfile, delimiter='\t',
                             quotechar='|', quoting=csv.QUOTE_MINIMAL)
@@ -153,7 +153,7 @@ while(True):
             print('CHUNK SIZE HIT, STARTING NEW FILE')
             t = time.time()
             n = -1
-            with open('D:/repositories/nfl-draft-sentiment/data/comments_temp.csv', 'w', newline='') as csvfile:
+            with open('D:/Dropbox/nfl-draft-sentiment/data/comments_temp.csv', 'w', newline='') as csvfile:
                 # initiate csv writer
                 comment_writer = csv.writer(csvfile, delimiter='\t',
                                         quotechar='|', quoting=csv.QUOTE_MINIMAL)
@@ -163,7 +163,7 @@ while(True):
         ## write to temp file
         if n == -1:
             try:
-                with open('D:/repositories/nfl-draft-sentiment/data/comments_temp.csv', 'a', newline='') as csvfile:
+                with open('D:/Dropbox/nfl-draft-sentiment/data/comments_temp.csv', 'a', newline='') as csvfile:
                     # initiate csv writer
                     comment_writer = csv.writer(csvfile, delimiter='\t', quotechar='|', quoting=csv.QUOTE_MINIMAL)
                     comment_writer.writerow([comment_time, comment_team, comment_text_censored, comment_length, comment_sent, comment_subr, comment_boo, comment_id, comment_text])
@@ -172,7 +172,7 @@ while(True):
 
         # write file
         try:
-            with open('D:/repositories/nfl-draft-sentiment/data/comments.csv', 'a', newline='') as csvfile:
+            with open('D:/Dropbox/nfl-draft-sentiment/data/comments.csv', 'a', newline='') as csvfile:
                 # initiate csv writer
                 comment_writer = csv.writer(csvfile, delimiter='\t', quotechar='|', quoting=csv.QUOTE_MINIMAL)
                 comment_writer.writerow([comment_time, comment_team, comment_text_censored, comment_length, comment_sent, comment_subr, comment_boo, comment_id, comment_text])
@@ -185,9 +185,9 @@ while(True):
         if n == -1 and time.time() - t >= 15:
             print("CHUNK TIME PASSED, FIXING FILE")
             # swap files
-            os.rename('D:/repositories/nfl-draft-sentiment/data/comments.csv',
-            'D:/repositories/nfl-draft-sentiment/data/chunks/comments_' + str(num_chunks) + ".csv")
-            os.rename('D:/repositories/nfl-draft-sentiment/data/comments_temp.csv','D:/repositories/nfl-draft-sentiment/data/comments.csv')
+            os.rename('D:/Dropbox/nfl-draft-sentiment/data/comments.csv',
+            'D:/Dropbox/nfl-draft-sentiment/data/chunks/comments_' + str(num_chunks) + ".csv")
+            os.rename('D:/Dropbox/nfl-draft-sentiment/data/comments_temp.csv','D:/Dropbox/nfl-draft-sentiment/data/comments.csv')
 
             # update vars
             n = 0
